@@ -1,28 +1,17 @@
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  ActivityIndicator,
-} from "react-native";
-import useGetAllCategories from "../api/useGetAllCategories";
-import Select from "react-native-picker-select";
-import { useEffect, useMemo, useState } from "react";
+import { View, Text, StyleSheet, ActivityIndicator } from "react-native";
+import { useEffect, useState } from "react";
 import useGetQuestions from "../api/useGetQuestions";
-import { shuffleArray } from "../utils/shuffltArray";
-import { replaceItemAt } from "../utils/replaceArrayItem";
+import HomeScreen from "../screens/HomeScreen/HomeScreen";
+import GameScreen from "../screens/GameScreen/GameScreen";
 
-const DIFFICULTY_OPTIONS = [
-  { label: "Easy", value: "easy" },
-  { label: "Medium", value: "medium" },
-  { label: "Hard", value: "hard" },
-];
-
+export interface answerInterface {
+  userAnswer: string;
+  point: 1 | 0;
+}
 const LandingPage = () => {
-  const { data: categories, isLoading: isCategoriesLoading } =
-    useGetAllCategories();
-  const [difficulty, setDifficulty] = useState(null);
-  const [category, setCategory] = useState(null);
+  const [difficulty, setDifficulty] = useState<string | null>(null);
+  const [category, setCategory] = useState<number | null>(null);
+
   const {
     data: questions,
     isFetching: isQuestionsLoading,
@@ -32,24 +21,7 @@ const LandingPage = () => {
     difficulty,
   });
 
-  interface answerInterface {
-    userAnswer: string;
-    point: 1 | 0;
-  }
   const [answers, setAnswers] = useState<answerInterface[]>([]);
-  const [numberOfQuestion, setNumberOfQuestion] = useState(0);
-
-  const isStartButtonDisabled = !(category && difficulty);
-
-  const onStartPress = () => {
-    getQuestions();
-  };
-
-  const styleRules = (...rules: any[]) => {
-    return rules.filter(Boolean).reduce((result, rule) => {
-      return { ...result, ...rule };
-    }, {});
-  };
 
   useEffect(() => {
     if (questions) {
@@ -66,121 +38,31 @@ const LandingPage = () => {
     }
   }, [questions]);
 
-  console.log("fffffffffffffffffffffffff", answers);
+  const isShowHomeScreen = !questions && !isQuestionsLoading;
 
-  // const shuffledArray = useMemo(() => {
-  //   if (!questions) return [];
-  //   return shuffleArray([
-  //     ...questions[numberOfQuestion].incorrect_answers,
-  //     questions[numberOfQuestion].correct_answer,
-  //   ]);
-  // }, [questions]);
+  const isShowGameScreen = questions && !isQuestionsLoading;
 
   return (
     <View>
       <Text>
-        {isQuestionsLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <View style={styles.wrapper}>
-            <Select
-              disabled={isCategoriesLoading}
-              onValueChange={(value) => setCategory(value)}
-              items={categories ?? []}
-              value={category}
-              placeholder={{
-                label: "Select category",
-                value: null,
-                color: "#9EA0A4",
-              }}
-            />
-            <Select
-              onValueChange={(value) => setDifficulty(value)}
-              items={DIFFICULTY_OPTIONS}
-              value={difficulty}
-              placeholder={{
-                label: "Select difficulty",
-                value: null,
-                color: "#9EA0A4",
-              }}
-            />
+        {isQuestionsLoading && <ActivityIndicator />}
 
-            <TouchableOpacity
-              style={styles.button}
-              onPress={onStartPress}
-              disabled={isStartButtonDisabled}
-            >
-              <Text>Press Here</Text>
-            </TouchableOpacity>
-          </View>
+        {isShowHomeScreen && (
+          <HomeScreen
+            difficulty={difficulty}
+            category={category}
+            setDifficulty={setDifficulty}
+            setCategory={setCategory}
+            getQuestions={getQuestions}
+          />
         )}
-        {questions && (
-          <View>
-            <View>
-              <Text>{questions[numberOfQuestion].question}</Text>
 
-              <View style={styles.answersWrapper}>
-                {questions[numberOfQuestion].allAnswers.map((answer) => {
-                  return (
-                    <Text
-                      // style={styles.answer}
-                      style={styleRules(
-                        styles.answer,
-                        answers?.[numberOfQuestion]?.userAnswer === answer &&
-                          styles.numberOfQuestionSelected
-                      )}
-                      onPress={() => {
-                        setAnswers((prev) => {
-                          const newAnswers: answerInterface[] = replaceItemAt(
-                            prev,
-                            numberOfQuestion,
-                            {
-                              userAnswer: answer,
-                              point:
-                                answer ===
-                                questions[numberOfQuestion].correct_answer
-                                  ? 1
-                                  : 0,
-                            }
-                          );
-
-                          return newAnswers;
-                        });
-                      }}
-                    >
-                      {answer}
-                    </Text>
-                  );
-                })}
-              </View>
-
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  setNumberOfQuestion((prev) => ++prev);
-                }}
-              >
-                <Text>Next</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View>
-              {questions.map((_, index) => {
-                return (
-                  <Text
-                    onPress={() => setNumberOfQuestion(index)}
-                    style={styleRules(
-                      styles.numberOfQuestion,
-                      numberOfQuestion === index &&
-                        styles.numberOfQuestionSelected
-                    )}
-                  >
-                    {index + 1}
-                  </Text>
-                );
-              })}
-            </View>
-          </View>
+        {isShowGameScreen && (
+          <GameScreen
+            answers={answers}
+            questions={questions}
+            setAnswers={setAnswers}
+          />
         )}
       </Text>
     </View>

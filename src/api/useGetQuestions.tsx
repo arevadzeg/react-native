@@ -11,7 +11,7 @@ interface Question {
   incorrect_answers: string[];
 }
 
-interface TransformedCQuestions {
+export interface TransformedCQuestions {
   type: "boolean" | "multiple";
   difficulty: string;
   category: string;
