@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TouchableOpacity, Alert } from "react-native";
 import styleRules from "../../utils/styleRules";
 import { TransformedCQuestions } from "../../api/useGetQuestions";
 import { answerInterface } from "../../components/LandingPage";
@@ -10,19 +10,40 @@ interface GameScreenInterface {
   questions: TransformedCQuestions[];
   setAnswers: React.Dispatch<React.SetStateAction<answerInterface[]>>;
   answers: answerInterface[];
+  setShowResults: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const GameScreen = ({
   questions,
   setAnswers,
   answers,
+  setShowResults,
 }: GameScreenInterface) => {
   const [numberOfQuestion, setNumberOfQuestion] = useState(0);
+
+  const createTwoButtonAlert = () => {
+    Alert.alert(
+      "Are you sure you want to finish?",
+      "Do you want to end the trivia game?",
+      [
+        {
+          text: "Continue Playing",
+          onPress: () => {},
+          style: "cancel",
+        },
+        {
+          text: "Finish Game",
+          onPress: () => setShowResults(true),
+        },
+      ]
+    );
+  };
+  const isLastQuestion = numberOfQuestion === questions.length - 1;
 
   return (
     <View>
       <View>
-        <Text>{questions[numberOfQuestion].question}</Text>
+        <Text>{decodeURIComponent(questions[numberOfQuestion].question)}</Text>
 
         <View style={gameScreenStyles.answersWrapper}>
           {questions[numberOfQuestion].allAnswers.map((answer) => {
@@ -51,7 +72,7 @@ const GameScreen = ({
                   });
                 }}
               >
-                {answer}
+                {decodeURIComponent(answer)}
               </Text>
             );
           })}
@@ -60,10 +81,11 @@ const GameScreen = ({
         <TouchableOpacity
           style={gameScreenStyles.button}
           onPress={() => {
+            if (isLastQuestion) return createTwoButtonAlert();
             setNumberOfQuestion((prev) => ++prev);
           }}
         >
-          <Text>Next</Text>
+          <Text>{isLastQuestion ? "Finish" : "Next"}</Text>
         </TouchableOpacity>
       </View>
 
@@ -88,43 +110,3 @@ const GameScreen = ({
 };
 
 export default GameScreen;
-
-// const styles = StyleSheet.create({
-//   wrapper: {
-//     display: "flex",
-//     alignItems: "center",
-//     justifyContent: "center",
-//     gap: 20,
-//     flexDirection: "column",
-//   },
-//   button: {
-//     alignItems: "center",
-//     backgroundColor: "blue",
-//     padding: 10,
-//   },
-//   numberOfQuestion: {
-//     borderWidth: 1,
-//     padding: 5,
-//     margin: 5,
-//     textAlign: "center",
-//   },
-//   numberOfQuestionSelected: {
-//     color: "#fff",
-//     backgroundColor: "blue",
-//   },
-//   answer: {
-//     width: "100%",
-//     backgroundColor: "#ccc",
-//     padding: 20,
-//     borderRadius: 64,
-//   },
-//   selectedAnswer: {
-//     backgroundColor: "#green",
-//     color: "#fff",
-//   },
-//   answersWrapper: {
-//     display: "flex",
-//     flexDirection: "column",
-//     gap: 10,
-//   },
-// });

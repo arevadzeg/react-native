@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import useGetQuestions from "../api/useGetQuestions";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import GameScreen from "../screens/GameScreen/GameScreen";
+import ShowResults from "../screens/ResultScreen/ResultScreen";
 
 export interface answerInterface {
   userAnswer: string;
@@ -11,6 +12,8 @@ export interface answerInterface {
 const LandingPage = () => {
   const [difficulty, setDifficulty] = useState<string | null>(null);
   const [category, setCategory] = useState<number | null>(null);
+  const [answers, setAnswers] = useState<answerInterface[]>([]);
+  const [isShowResults, setShowResults] = useState(false);
 
   const {
     data: questions,
@@ -21,7 +24,7 @@ const LandingPage = () => {
     difficulty,
   });
 
-  const [answers, setAnswers] = useState<answerInterface[]>([]);
+  console.log("ffffffffffffffffffffffffasd", questions);
 
   useEffect(() => {
     if (questions) {
@@ -38,9 +41,9 @@ const LandingPage = () => {
     }
   }, [questions]);
 
-  const isShowHomeScreen = !questions && !isQuestionsLoading;
+  const isShowHomeScreen = !questions && !isQuestionsLoading && !isShowResults;
 
-  const isShowGameScreen = questions && !isQuestionsLoading;
+  const isShowGameScreen = questions && !isQuestionsLoading && !isShowResults;
 
   return (
     <View>
@@ -62,6 +65,16 @@ const LandingPage = () => {
             answers={answers}
             questions={questions}
             setAnswers={setAnswers}
+            setShowResults={setShowResults}
+          />
+        )}
+
+        {isShowResults && (
+          <ShowResults
+            answers={answers}
+            setShowResults={setShowResults}
+            difficulty={difficulty}
+            category={category}
           />
         )}
       </Text>
@@ -70,43 +83,3 @@ const LandingPage = () => {
 };
 
 export default LandingPage;
-
-const styles = StyleSheet.create({
-  wrapper: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 20,
-    flexDirection: "column",
-  },
-  button: {
-    alignItems: "center",
-    backgroundColor: "blue",
-    padding: 10,
-  },
-  numberOfQuestion: {
-    borderWidth: 1,
-    padding: 5,
-    margin: 5,
-    textAlign: "center",
-  },
-  numberOfQuestionSelected: {
-    color: "#fff",
-    backgroundColor: "blue",
-  },
-  answer: {
-    width: "100%",
-    backgroundColor: "#ccc",
-    padding: 20,
-    borderRadius: 64,
-  },
-  selectedAnswer: {
-    backgroundColor: "#green",
-    color: "#fff",
-  },
-  answersWrapper: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-  },
-});

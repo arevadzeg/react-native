@@ -40,7 +40,7 @@ const useGetQuestions = ({
     queryFn: async () => {
       try {
         const response = await apiClient.get<ApiResponse>(
-          `api.php?amount=10&category=${category}&difficulty=${difficulty}`
+          `api.php?amount=10&category=${category}&difficulty=${difficulty}&encode=url3986`
         );
 
         return response.data.results.map((question) => {
