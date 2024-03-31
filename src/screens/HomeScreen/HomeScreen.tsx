@@ -29,9 +29,8 @@ const HomeScreen = ({
 
   const isStartButtonDisabled = !(category && difficulty);
 
-  const onStartPress = () => {
-    getQuestions();
-  };
+  const handleStartGame = () => getQuestions();
+
   return (
     <View style={homeScreenStyles.homeScreen}>
       <Select
@@ -58,7 +57,7 @@ const HomeScreen = ({
 
       <TouchableOpacity
         style={homeScreenStyles.startButton}
-        onPress={onStartPress}
+        onPress={handleStartGame}
         disabled={isStartButtonDisabled}
       >
         <Text>Press Here</Text>

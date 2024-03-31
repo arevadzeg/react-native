@@ -5,24 +5,18 @@ import { useQueryClient } from "@tanstack/react-query";
 interface ShowResultsProps {
   answers: answerInterface[];
   setShowResults: React.Dispatch<React.SetStateAction<boolean>>;
-  category: number | null;
-  difficulty: string | null;
 }
-const ShowResults = ({
-  answers,
-  setShowResults,
-  category,
-  difficulty,
-}: ShowResultsProps) => {
+const ShowResults = ({ answers, setShowResults }: ShowResultsProps) => {
   const totalScore = answers.reduce((accumulator, currentAnswer) => {
     return accumulator + currentAnswer.point;
   }, 0);
 
   const queryClient = useQueryClient();
 
-  const onReStartButton = () => {
+  const handleReStartGame = () => {
     queryClient.resetQueries({
-      queryKey: ["questions", category, difficulty],
+      queryKey: ["questions"],
+      exact: false,
     });
 
     setShowResults(false);
@@ -33,7 +27,7 @@ const ShowResults = ({
       <Text>
         Your score {totalScore}/{answers.length}
       </Text>
-      <Button onPress={onReStartButton} title="Play one more time" />
+      <Button onPress={handleReStartGame} title="Play one more time" />
     </View>
   );
 };

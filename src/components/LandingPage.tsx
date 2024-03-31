@@ -24,8 +24,6 @@ const LandingPage = () => {
     difficulty,
   });
 
-  console.log("ffffffffffffffffffffffffasd", questions);
-
   useEffect(() => {
     if (questions) {
       const initialAnswers: answerInterface[] = Array.from(
@@ -70,12 +68,7 @@ const LandingPage = () => {
         )}
 
         {isShowResults && (
-          <ShowResults
-            answers={answers}
-            setShowResults={setShowResults}
-            difficulty={difficulty}
-            category={category}
-          />
+          <ShowResults answers={answers} setShowResults={setShowResults} />
         )}
       </Text>
     </View>
