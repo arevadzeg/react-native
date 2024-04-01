@@ -4,6 +4,7 @@ import useGetQuestions from "../api/useGetQuestions";
 import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import GameScreen from "../screens/GameScreen/GameScreen";
 import ShowResults from "../screens/ResultScreen/ResultScreen";
+import { LinearGradient } from "expo-linear-gradient";
 
 export interface answerInterface {
   userAnswer: string;
@@ -44,8 +45,8 @@ const LandingPage = () => {
   const isShowGameScreen = questions && !isQuestionsLoading && !isShowResults;
 
   return (
-    <View>
-      <Text>
+    <View style={style.mainWrapper}>
+      <LinearGradient colors={["#ADDDD1", "#4BAACE"]} style={style.mainWrapper}>
         {isQuestionsLoading && <ActivityIndicator />}
 
         {isShowHomeScreen && (
@@ -70,9 +71,16 @@ const LandingPage = () => {
         {isShowResults && (
           <ShowResults answers={answers} setShowResults={setShowResults} />
         )}
-      </Text>
+      </LinearGradient>
     </View>
   );
 };
 
 export default LandingPage;
+
+const style = StyleSheet.create({
+  mainWrapper: {
+    height: "100%",
+    width: "100%",
+  },
+});

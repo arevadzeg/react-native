@@ -1,5 +1,5 @@
 import React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Select from "react-native-picker-select";
 import useGetAllCategories from "../../api/useGetAllCategories";
 import homeScreenStyles from "./homeScreenStyles";
@@ -33,9 +33,11 @@ const HomeScreen = ({
 
   return (
     <View style={homeScreenStyles.homeScreen}>
+      <Image source={require("../../../assets/lightBulb.png")} />
       <Select
         disabled={isCategoriesLoading}
         onValueChange={(value) => setCategory(value)}
+        style={homeScreenStyles}
         items={categories ?? []}
         value={category}
         placeholder={{
@@ -47,6 +49,7 @@ const HomeScreen = ({
       <Select
         onValueChange={(value) => setDifficulty(value)}
         items={DIFFICULTY_OPTIONS}
+        style={homeScreenStyles}
         value={difficulty}
         placeholder={{
           label: "Select difficulty",
@@ -54,13 +57,12 @@ const HomeScreen = ({
           color: "#9EA0A4",
         }}
       />
-
       <TouchableOpacity
         style={homeScreenStyles.startButton}
         onPress={handleStartGame}
         disabled={isStartButtonDisabled}
       >
-        <Text>Press Here</Text>
+        <Text style={homeScreenStyles.startButtonText}>Press Here</Text>
       </TouchableOpacity>
     </View>
   );
