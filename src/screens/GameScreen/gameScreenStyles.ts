@@ -2,34 +2,53 @@ import { StyleSheet } from "react-native";
 
 const gameScreenStyles = StyleSheet.create({
   button: {
+    marginTop: "auto",
     alignItems: "center",
-    backgroundColor: "blue",
-    padding: 10,
+    backgroundColor: "#5DBF10",
+    paddingHorizontal: 50,
+    paddingVertical: 15,
+    borderRadius: 40,
   },
-  numberOfQuestion: {
-    borderWidth: 1,
-    padding: 5,
-    margin: 5,
-    textAlign: "center",
+
+  answerSelected: {
+    backgroundColor: "#F67443",
   },
-  numberOfQuestionSelected: {
+  answerSelectedText: {
     color: "#fff",
-    backgroundColor: "blue",
+  },
+  answerText: {
+    width: "100%",
+    padding: 20,
   },
   answer: {
-    width: "100%",
-    backgroundColor: "#ccc",
-    padding: 20,
-    borderRadius: 64,
+    borderRadius: 8,
+    backgroundColor: "#E5E5E5",
   },
-  selectedAnswer: {
-    backgroundColor: "#green",
-    color: "#fff",
-  },
+
   answersWrapper: {
+    padding: 20,
+    backgroundColor: "#fff",
     display: "flex",
     flexDirection: "column",
-    gap: 10,
+    gap: 20,
+    borderRadius: 16,
+  },
+  questionWrapper: {
+    borderRadius: 8,
+    backgroundColor: "#E5E5E5",
+    marginBottom: 40,
+    marginTop: 40,
+    fontWeight: "bold",
+  },
+  question: {
+    padding: 20,
+    fontSize: 18,
+  },
+  gameScreen: {
+    paddingTop: 20,
+    width: "90%",
+    marginLeft: "5%",
+    height: "100%",
   },
 });
 

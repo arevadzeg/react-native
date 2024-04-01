@@ -1,10 +1,17 @@
 import React, { useState } from "react";
-import { View, Text, TouchableOpacity, Alert } from "react-native";
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  SafeAreaView,
+} from "react-native";
 import styleRules from "../../utils/styleRules";
 import { TransformedCQuestions } from "../../api/useGetQuestions";
 import { answerInterface } from "../../components/LandingPage";
 import { replaceItemAt } from "../../utils/replaceArrayItem";
 import gameScreenStyles from "./gameScreenStyles";
+import Stepper from "../../components/Stepper/Stepper";
 
 interface GameScreenInterface {
   questions: TransformedCQuestions[];
@@ -41,71 +48,72 @@ const GameScreen = ({
   const isLastQuestion = numberOfQuestion === questions.length - 1;
 
   return (
-    <View>
+    <SafeAreaView style={gameScreenStyles.gameScreen}>
+      <Stepper
+        current={numberOfQuestion + 1}
+        total={questions.length}
+        setStep={setNumberOfQuestion}
+        unit="Question"
+      />
       <View>
-        <Text>{decodeURIComponent(questions[numberOfQuestion].question)}</Text>
+        <View style={gameScreenStyles.questionWrapper}>
+          <Text style={gameScreenStyles.question}>
+            {decodeURIComponent(questions[numberOfQuestion].question)}
+          </Text>
+        </View>
 
         <View style={gameScreenStyles.answersWrapper}>
           {questions[numberOfQuestion].allAnswers.map((answer) => {
             return (
-              <Text
+              <View
                 style={styleRules(
                   gameScreenStyles.answer,
                   answers?.[numberOfQuestion]?.userAnswer === answer &&
-                    gameScreenStyles.numberOfQuestionSelected
+                    gameScreenStyles.answerSelected
                 )}
-                onPress={() => {
-                  setAnswers((prev) => {
-                    const newAnswers: answerInterface[] = replaceItemAt(
-                      prev,
-                      numberOfQuestion,
-                      {
-                        userAnswer: answer,
-                        point:
-                          answer === questions[numberOfQuestion].correct_answer
-                            ? 1
-                            : 0,
-                      }
-                    );
-
-                    return newAnswers;
-                  });
-                }}
               >
-                {decodeURIComponent(answer)}
-              </Text>
+                <Text
+                  style={styleRules(
+                    gameScreenStyles.answerText,
+                    answers?.[numberOfQuestion]?.userAnswer === answer &&
+                      gameScreenStyles.answerSelectedText
+                  )}
+                  onPress={() => {
+                    setAnswers((prev) => {
+                      const newAnswers: answerInterface[] = replaceItemAt(
+                        prev,
+                        numberOfQuestion,
+                        {
+                          userAnswer: answer,
+                          point:
+                            answer ===
+                            questions[numberOfQuestion].correct_answer
+                              ? 1
+                              : 0,
+                        }
+                      );
+
+                      return newAnswers;
+                    });
+                  }}
+                >
+                  {decodeURIComponent(answer)}
+                </Text>
+              </View>
             );
           })}
         </View>
-
-        <TouchableOpacity
-          style={gameScreenStyles.button}
-          onPress={() => {
-            if (isLastQuestion) return createTwoButtonAlert();
-            setNumberOfQuestion((prev) => ++prev);
-          }}
-        >
-          <Text>{isLastQuestion ? "Finish" : "Next"}</Text>
-        </TouchableOpacity>
       </View>
-
-      <View>
-        {questions.map((_, index) => {
-          return (
-            <Text
-              onPress={() => setNumberOfQuestion(index)}
-              style={styleRules(
-                gameScreenStyles.numberOfQuestion,
-                numberOfQuestion === index &&
-                  gameScreenStyles.numberOfQuestionSelected
-              )}
-            >
-              {index + 1}
-            </Text>
-          );
-        })}
-      </View>
-    </View>
+      <TouchableOpacity
+        style={gameScreenStyles.button}
+        onPress={() => {
+          if (isLastQuestion) return createTwoButtonAlert();
+          setNumberOfQuestion((prev) => ++prev);
+        }}
+      >
+        <Text>{isLastQuestion ? "Finish" : "Next"}</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 
