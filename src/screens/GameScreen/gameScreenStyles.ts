@@ -3,11 +3,6 @@ import { StyleSheet } from "react-native";
 const gameScreenStyles = StyleSheet.create({
   button: {
     marginTop: "auto",
-    alignItems: "center",
-    backgroundColor: "#5DBF10",
-    paddingHorizontal: 50,
-    paddingVertical: 15,
-    borderRadius: 40,
   },
 
   answerSelected: {

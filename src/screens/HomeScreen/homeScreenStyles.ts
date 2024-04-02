@@ -10,18 +10,6 @@ const homeScreenStyles = StyleSheet.create({
     marginTop: "auto",
     marginBottom: "auto",
   },
-  startButton: {
-    alignItems: "center",
-    backgroundColor: "#5DBF10",
-    paddingHorizontal: 50,
-    paddingVertical: 15,
-    borderRadius: 40,
-  },
-  startButtonText: {
-    fontSize: 25,
-    fontWeight: "800",
-    color: "#fff",
-  },
   inputIOS: {
     fontSize: 16,
     paddingVertical: 12,

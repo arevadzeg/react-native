@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Select from "react-native-picker-select";
 import useGetAllCategories from "../../api/useGetAllCategories";
 import homeScreenStyles from "./homeScreenStyles";
+import Button from "../../components/Button/Button";
 
 const DIFFICULTY_OPTIONS = [
   { label: "Easy", value: "easy" },
@@ -57,13 +58,11 @@ const HomeScreen = ({
           color: "#9EA0A4",
         }}
       />
-      <TouchableOpacity
-        style={homeScreenStyles.startButton}
+      <Button
+        title="Press Here"
         onPress={handleStartGame}
         disabled={isStartButtonDisabled}
-      >
-        <Text style={homeScreenStyles.startButtonText}>Press Here</Text>
-      </TouchableOpacity>
+      />
     </View>
   );
 };

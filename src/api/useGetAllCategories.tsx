@@ -1,5 +1,6 @@
 import apiClient from "../apiClient";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
+import ENDPOINTS from "../endpoints";
 
 interface Category {
   id: number;
@@ -23,7 +24,9 @@ const useGetAllCategories = (): UseQueryResult<
     queryKey: ["categories"],
     queryFn: async () => {
       try {
-        const response = await apiClient.get<ApiResponse>("api_category.php");
+        const response = await apiClient.get<ApiResponse>(
+          ENDPOINTS.GET.CATEGORY
+        );
         return response.data.trivia_categories.map((category) => {
           return {
             label: category.name,

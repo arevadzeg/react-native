@@ -47,7 +47,7 @@ const LandingPage = () => {
   return (
     <View style={style.mainWrapper}>
       <LinearGradient colors={["#ADDDD1", "#4BAACE"]} style={style.mainWrapper}>
-        {isQuestionsLoading && <ActivityIndicator />}
+        {isQuestionsLoading && <ActivityIndicator style={style.loader} />}
 
         {isShowHomeScreen && (
           <HomeScreen
@@ -82,5 +82,12 @@ const style = StyleSheet.create({
   mainWrapper: {
     height: "100%",
     width: "100%",
+  },
+  loader: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
 });

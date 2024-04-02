@@ -1,6 +1,7 @@
 import apiClient from "../apiClient";
 import { UseQueryResult, useQuery } from "@tanstack/react-query";
 import { shuffleArray } from "../utils/shuffltArray";
+import ENDPOINTS from "../endpoints";
 
 interface Question {
   type: "boolean" | "multiple";
@@ -40,7 +41,7 @@ const useGetQuestions = ({
     queryFn: async () => {
       try {
         const response = await apiClient.get<ApiResponse>(
-          `api.php?amount=10&category=${category}&difficulty=${difficulty}&encode=url3986`
+          `${ENDPOINTS.GET.QUESTION}?amount=10&category=${category}&difficulty=${difficulty}&encode=url3986`
         );
 
         return response.data.results.map((question) => {

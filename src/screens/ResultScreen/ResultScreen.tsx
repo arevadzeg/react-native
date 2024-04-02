@@ -3,6 +3,7 @@ import { answerInterface } from "../../components/LandingPage";
 import { useQueryClient } from "@tanstack/react-query";
 import Icon from "react-native-vector-icons/FontAwesome6";
 import resultsScreen from "./resultsScreen";
+import Button from "../../components/Button/Button";
 
 interface ShowResultsProps {
   answers: answerInterface[];
@@ -35,12 +36,7 @@ const ShowResults = ({ answers, setShowResults }: ShowResultsProps) => {
 
         <Text>/{answers.length}</Text>
       </View>
-      <TouchableOpacity
-        onPress={handleReStartGame}
-        style={resultsScreen.reStartButton}
-      >
-        <Text style={resultsScreen.reStartButtonText}>Re-start game</Text>
-      </TouchableOpacity>
+      <Button onPress={handleReStartGame} title="Re-start game" />
     </SafeAreaView>
   );
 };

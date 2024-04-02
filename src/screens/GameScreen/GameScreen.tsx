@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  TouchableOpacity,
   Alert,
   SafeAreaView,
+  TouchableOpacity,
 } from "react-native";
 import styleRules from "../../utils/styleRules";
 import { TransformedCQuestions } from "../../api/useGetQuestions";
@@ -12,6 +12,7 @@ import { answerInterface } from "../../components/LandingPage";
 import { replaceItemAt } from "../../utils/replaceArrayItem";
 import gameScreenStyles from "./gameScreenStyles";
 import Stepper from "../../components/Stepper/Stepper";
+import Button from "../../components/Button/Button";
 
 interface GameScreenInterface {
   questions: TransformedCQuestions[];
@@ -73,7 +74,7 @@ const GameScreen = ({
                     gameScreenStyles.answerSelected
                 )}
               >
-                <Text
+                <TouchableOpacity
                   style={styleRules(
                     gameScreenStyles.answerText,
                     answers?.[numberOfQuestion]?.userAnswer === answer &&
@@ -98,22 +99,21 @@ const GameScreen = ({
                     });
                   }}
                 >
-                  {decodeURIComponent(answer)}
-                </Text>
+                  <Text>{decodeURIComponent(answer)}</Text>
+                </TouchableOpacity>
               </View>
             );
           })}
         </View>
       </View>
-      <TouchableOpacity
-        style={gameScreenStyles.button}
+      <Button
         onPress={() => {
           if (isLastQuestion) return createTwoButtonAlert();
           setNumberOfQuestion((prev) => ++prev);
         }}
-      >
-        <Text>{isLastQuestion ? "Finish" : "Next"}</Text>
-      </TouchableOpacity>
+        title={isLastQuestion ? "Finish" : "Next"}
+        style={gameScreenStyles.button}
+      />
     </SafeAreaView>
   );
 };
