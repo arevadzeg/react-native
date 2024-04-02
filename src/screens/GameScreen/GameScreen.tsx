@@ -66,6 +66,7 @@ const GameScreen = ({
           {questions[numberOfQuestion].allAnswers.map((answer) => {
             return (
               <View
+                key={answer}
                 style={styleRules(
                   gameScreenStyles.answer,
                   answers?.[numberOfQuestion]?.userAnswer === answer &&

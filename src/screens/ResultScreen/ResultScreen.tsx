@@ -1,6 +1,8 @@
-import { Button, Text, View } from "react-native";
+import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
 import { answerInterface } from "../../components/LandingPage";
 import { useQueryClient } from "@tanstack/react-query";
+import Icon from "react-native-vector-icons/FontAwesome6";
+import resultsScreen from "./resultsScreen";
 
 interface ShowResultsProps {
   answers: answerInterface[];
@@ -22,13 +24,24 @@ const ShowResults = ({ answers, setShowResults }: ShowResultsProps) => {
     setShowResults(false);
   };
   return (
-    <View>
-      <Text>Results</Text>
-      <Text>
-        Your score {totalScore}/{answers.length}
-      </Text>
-      <Button onPress={handleReStartGame} title="Play one more time" />
-    </View>
+    <SafeAreaView style={resultsScreen.resultsScreen}>
+      <Icon name="trophy" size={150} color={"#F6B907"} />
+      <View style={resultsScreen.finish}>
+        <Text style={resultsScreen.finishText}>Finish</Text>
+      </View>
+
+      <View style={resultsScreen.step}>
+        <Text style={resultsScreen.current}>Your score {totalScore}</Text>
+
+        <Text>/{answers.length}</Text>
+      </View>
+      <TouchableOpacity
+        onPress={handleReStartGame}
+        style={resultsScreen.reStartButton}
+      >
+        <Text style={resultsScreen.reStartButtonText}>Re-start game</Text>
+      </TouchableOpacity>
+    </SafeAreaView>
   );
 };
 
