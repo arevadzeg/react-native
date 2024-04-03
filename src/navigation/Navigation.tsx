@@ -5,12 +5,13 @@ import HomeScreen from "../screens/HomeScreen/HomeScreen";
 import GameScreen from "../screens/GameScreen/GameScreen";
 import ShowResults from "../screens/ResultScreen/ResultScreen";
 import { LinearGradient } from "expo-linear-gradient";
+import navigationStyle from "./navigationStyles";
 
 export interface answerInterface {
   userAnswer: string;
   point: 1 | 0;
 }
-const LandingPage = () => {
+const Navigation = () => {
   const [difficulty, setDifficulty] = useState<string | null>(null);
   const [category, setCategory] = useState<number | null>(null);
   const [answers, setAnswers] = useState<answerInterface[]>([]);
@@ -45,9 +46,14 @@ const LandingPage = () => {
   const isShowGameScreen = questions && !isQuestionsLoading && !isShowResults;
 
   return (
-    <View style={style.mainWrapper}>
-      <LinearGradient colors={["#ADDDD1", "#4BAACE"]} style={style.mainWrapper}>
-        {isQuestionsLoading && <ActivityIndicator style={style.loader} />}
+    <View style={navigationStyle.mainWrapper}>
+      <LinearGradient
+        colors={["#ADDDD1", "#4BAACE"]}
+        style={navigationStyle.mainWrapper}
+      >
+        {isQuestionsLoading && (
+          <ActivityIndicator style={navigationStyle.loader} />
+        )}
 
         {isShowHomeScreen && (
           <HomeScreen
@@ -76,18 +82,4 @@ const LandingPage = () => {
   );
 };
 
-export default LandingPage;
-
-const style = StyleSheet.create({
-  mainWrapper: {
-    height: "100%",
-    width: "100%",
-  },
-  loader: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-});
+export default Navigation;

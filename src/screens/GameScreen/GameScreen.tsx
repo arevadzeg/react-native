@@ -8,11 +8,11 @@ import {
 } from "react-native";
 import styleRules from "../../utils/styleRules";
 import { TransformedCQuestions } from "../../api/useGetQuestions";
-import { answerInterface } from "../../components/LandingPage";
 import { replaceItemAt } from "../../utils/replaceArrayItem";
 import gameScreenStyles from "./gameScreenStyles";
 import Stepper from "../../components/Stepper/Stepper";
 import Button from "../../components/Button/Button";
+import { answerInterface } from "../../navigation/Navigation";
 
 interface GameScreenInterface {
   questions: TransformedCQuestions[];

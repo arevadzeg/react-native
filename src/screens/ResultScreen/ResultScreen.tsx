@@ -1,15 +1,15 @@
-import { SafeAreaView, Text, TouchableOpacity, View } from "react-native";
-import { answerInterface } from "../../components/LandingPage";
+import { SafeAreaView, Text, View } from "react-native";
 import { useQueryClient } from "@tanstack/react-query";
 import Icon from "react-native-vector-icons/FontAwesome6";
 import resultsScreen from "./resultsScreen";
 import Button from "../../components/Button/Button";
+import { answerInterface } from "../../navigation/Navigation";
 
 interface ShowResultsProps {
   answers: answerInterface[];
   setShowResults: React.Dispatch<React.SetStateAction<boolean>>;
 }
-const ShowResults = ({ answers, setShowResults }: ShowResultsProps) => {
+const ResultsScreen = ({ answers, setShowResults }: ShowResultsProps) => {
   const totalScore = answers.reduce((accumulator, currentAnswer) => {
     return accumulator + currentAnswer.point;
   }, 0);
@@ -41,4 +41,4 @@ const ShowResults = ({ answers, setShowResults }: ShowResultsProps) => {
   );
 };
 
-export default ShowResults;
+export default ResultsScreen;
